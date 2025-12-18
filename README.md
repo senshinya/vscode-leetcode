@@ -17,7 +17,7 @@
   </a>
 </p>
 
-- [English Document](shttps://github.com/senshinya/vscode-leetcode/blob/master/docs/README_en-US.md) | 中文文档
+- [English Document](https://github.com/senshinya/vscode-leetcode/blob/master/docs/README_en-US.md) | 中文文档
 
 ## ❗️ 注意 ❗️- 无法登录 LeetCode 节点的临时解决办法
 
