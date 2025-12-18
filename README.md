@@ -128,6 +128,27 @@ Thanks for [@yihong0618](https://github.com/yihong0618) provided a workaround wh
 
 - To manage your LeetCode sessions, just clicking the `LeetCode: ***` at the bottom of the status bar. You can **switch** between sessions or **create**, **delete** a session.
 
+---
+
+### Local Progress Tracking
+
+The extension supports local progress tracking, allowing you to track your learning progress independently from LeetCode's remote state.
+
+- **Create Progress**: Use the command `LeetCode: Create Progress` to create a new local progress. Progress files are stored in `.leetcode/progress/` under your workspace.
+
+- **Select Progress**: Use `LeetCode: Select Progress` to switch between different progresses or deselect to use remote state.
+
+- **Track Completion**: When a progress is active:
+  - Problem completion status is read from your local progress file
+  - Successfully submitted solutions are automatically saved to the progress
+  - Use `LeetCode: Mark as Completed` or `LeetCode: Mark as Uncompleted` to manually update problem status
+
+- **Spoiler-Free Mode**: When viewing uncompleted problems with an active progress, web solutions are hidden to avoid spoilers.
+
+- **Manage Progresses**: Use `LeetCode: List Progresses` to view all progresses, or `LeetCode: Delete Progress` to remove one.
+
+> Note: Progress data is stored locally in JSON format and is independent of your LeetCode account.
+
 ## Settings
 
 | Setting Name                      | Description                                                                                                                                                                                                                                                   | Default Value      |
