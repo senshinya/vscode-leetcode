@@ -12,7 +12,7 @@ export class LeetCodeStatusBarItem implements vscode.Disposable {
 
     constructor() {
         this.statusBarItem = vscode.window.createStatusBarItem();
-        this.statusBarItem.command = "leetcode.manageSessions";
+        this.statusBarItem.command = "leetcode.selectProgress";
     }
 
     public updateStatusBar(status: UserStatus, user?: string): void {

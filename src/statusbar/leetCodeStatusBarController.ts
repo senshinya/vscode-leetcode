@@ -26,8 +26,13 @@ class LeetCodeStatusBarController implements Disposable {
             this.statusBar.updateActiveProgress(progressName);
         };
         progressManager.on("progressSelected", this.progressSelectedHandler);
+    }
 
-        // Initialize with current active progress
+    /**
+     * Initializes the status bar with the current active progress.
+     * Should be called after progressManager is initialized and loaded.
+     */
+    public initializeActiveProgress(): void {
         this.statusBar.updateActiveProgress(progressManager.getActiveProgressName());
     }
 

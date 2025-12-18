@@ -44,6 +44,8 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
         globalState.initialize(context);
         progressManager.initialize(context);
         await progressManager.loadActiveProgress();
+        // Initialize status bar with active progress after progressManager is loaded
+        leetCodeStatusBarController.initializeActiveProgress();
 
         context.subscriptions.push(
             leetCodeStatusBarController,

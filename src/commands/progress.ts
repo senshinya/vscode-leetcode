@@ -72,9 +72,9 @@ export async function selectProgress(): Promise<void> {
             value: p.name,
         }));
 
-        // Add option to deselect
+        // Add option to deselect (use remote state)
         picks.unshift({
-            label: "$(circle-slash) None",
+            label: "$(cloud) Remote",
             description: "Use remote LeetCode state",
             value: undefined,
         });
