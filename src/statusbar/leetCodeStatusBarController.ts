@@ -4,10 +4,12 @@
 import { ConfigurationChangeEvent, Disposable, workspace, WorkspaceConfiguration } from "vscode";
 import { UserStatus } from "../shared";
 import { LeetCodeStatusBarItem } from "./LeetCodeStatusBarItem";
+import { progressManager } from "../progress/progressManager";
 
 class LeetCodeStatusBarController implements Disposable {
     private statusBar: LeetCodeStatusBarItem;
     private configurationChangeListener: Disposable;
+    private progressSelectedHandler: (progressName: string | undefined) => void;
 
     constructor() {
         this.statusBar = new LeetCodeStatusBarItem();
@@ -18,6 +20,15 @@ class LeetCodeStatusBarController implements Disposable {
                 this.setStatusBarVisibility();
             }
         }, this);
+
+        // Listen for progress selection changes
+        this.progressSelectedHandler = (progressName: string | undefined) => {
+            this.statusBar.updateActiveProgress(progressName);
+        };
+        progressManager.on("progressSelected", this.progressSelectedHandler);
+
+        // Initialize with current active progress
+        this.statusBar.updateActiveProgress(progressManager.getActiveProgressName());
     }
 
     public updateStatusBar(status: UserStatus, user?: string): void {
@@ -27,6 +38,7 @@ class LeetCodeStatusBarController implements Disposable {
     public dispose(): void {
         this.statusBar.dispose();
         this.configurationChangeListener.dispose();
+        progressManager.removeListener("progressSelected", this.progressSelectedHandler);
     }
 
     private setStatusBarVisibility(): void {

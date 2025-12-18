@@ -6,6 +6,7 @@ import { codeLensController } from "./codelens/CodeLensController";
 import * as cache from "./commands/cache";
 import { switchDefaultLanguage } from "./commands/language";
 import * as plugin from "./commands/plugin";
+import * as progress from "./commands/progress";
 import * as session from "./commands/session";
 import * as show from "./commands/show";
 import * as star from "./commands/star";
@@ -26,6 +27,7 @@ import { leetCodeSubmissionProvider } from "./webview/leetCodeSubmissionProvider
 import { markdownEngine } from "./webview/markdownEngine";
 import TrackData from "./utils/trackingUtils";
 import { globalState } from "./globalState";
+import { progressManager } from "./progress/progressManager";
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
     try {
@@ -40,6 +42,8 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
 
         leetCodeTreeDataProvider.initialize(context);
         globalState.initialize(context);
+        progressManager.initialize(context);
+        await progressManager.loadActiveProgress();
 
         context.subscriptions.push(
             leetCodeStatusBarController,
@@ -97,7 +101,16 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
             vscode.commands.registerCommand("leetcode.switchDefaultLanguage", () => switchDefaultLanguage()),
             vscode.commands.registerCommand("leetcode.addFavorite", (node: LeetCodeNode) => star.addFavorite(node)),
             vscode.commands.registerCommand("leetcode.removeFavorite", (node: LeetCodeNode) => star.removeFavorite(node)),
-            vscode.commands.registerCommand("leetcode.problems.sort", () => plugin.switchSortingStrategy())
+            vscode.commands.registerCommand("leetcode.problems.sort", () => plugin.switchSortingStrategy()),
+            // Progress tracking commands
+            vscode.commands.registerCommand("leetcode.createProgress", () => progress.createProgress()),
+            vscode.commands.registerCommand("leetcode.selectProgress", () => progress.selectProgress()),
+            vscode.commands.registerCommand("leetcode.deleteProgress", () => progress.deleteProgress()),
+            vscode.commands.registerCommand("leetcode.listProgresses", () => progress.listProgresses()),
+            vscode.commands.registerCommand("leetcode.markComplete", (node: LeetCodeNode) => progress.markComplete(node)),
+            vscode.commands.registerCommand("leetcode.markUncomplete", (node: LeetCodeNode) => progress.markUncomplete(node)),
+            vscode.commands.registerCommand("leetcode.viewStoredSolution", (node: LeetCodeNode) => progress.viewStoredSolution(node)),
+            progressManager
         );
 
         await leetCodeExecutor.switchEndpoint(plugin.getLeetCodeEndpoint());

@@ -13,7 +13,10 @@
         "noImplicitReturns": true,
         "strictNullChecks": true,
         "noUnusedParameters": true,
-        "alwaysStrict": true
+        "alwaysStrict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "noEmitOnError": false
     },
     "exclude": [
         "node_modules",

@@ -6,6 +6,9 @@ import { UserStatus } from "../shared";
 
 export class LeetCodeStatusBarItem implements vscode.Disposable {
     private readonly statusBarItem: vscode.StatusBarItem;
+    private currentStatus: UserStatus = UserStatus.SignedOut;
+    private currentUser: string | undefined;
+    private activeProgressName: string | undefined;
 
     constructor() {
         this.statusBarItem = vscode.window.createStatusBarItem();
@@ -13,9 +16,24 @@ export class LeetCodeStatusBarItem implements vscode.Disposable {
     }
 
     public updateStatusBar(status: UserStatus, user?: string): void {
-        switch (status) {
+        this.currentStatus = status;
+        this.currentUser = user;
+        this.refreshDisplay();
+    }
+
+    public updateActiveProgress(progressName: string | undefined): void {
+        this.activeProgressName = progressName;
+        this.refreshDisplay();
+    }
+
+    private refreshDisplay(): void {
+        switch (this.currentStatus) {
             case UserStatus.SignedIn:
-                this.statusBarItem.text = `LeetCode: ${user}`;
+                if (this.activeProgressName) {
+                    this.statusBarItem.text = `LeetCode: ${this.currentUser} [${this.activeProgressName}]`;
+                } else {
+                    this.statusBarItem.text = `LeetCode: ${this.currentUser}`;
+                }
                 break;
             case UserStatus.SignedOut:
             default:

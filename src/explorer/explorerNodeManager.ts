@@ -5,6 +5,7 @@ import * as _ from "lodash";
 import { Disposable } from "vscode";
 import * as list from "../commands/list";
 import { getSortingStrategy } from "../commands/plugin";
+import { progressManager } from "../progress/progressManager";
 import { Category, defaultProblem, ProblemState, SortingStrategy } from "../shared";
 import { shouldHideSolvedProblem } from "../utils/settingUtils";
 import { LeetCodeNode } from "./LeetCodeNode";
@@ -18,14 +19,20 @@ class ExplorerNodeManager implements Disposable {
         this.dispose();
         const shouldHideSolved: boolean = shouldHideSolvedProblem();
         for (const problem of await list.listProblems()) {
-            if (shouldHideSolved && problem.state === ProblemState.AC) {
+            // Resolve problem state using progress manager
+            // If active progress has a local state for this problem, use it; otherwise use remote state
+            // Requirements: 3.1, 3.2, 3.3
+            const resolvedState = progressManager.resolveProblemState(problem.id, problem.state);
+            const problemWithResolvedState = { ...problem, state: resolvedState };
+
+            if (shouldHideSolved && problemWithResolvedState.state === ProblemState.AC) {
                 continue;
             }
-            this.explorerNodeMap.set(problem.id, new LeetCodeNode(problem));
-            for (const company of problem.companies) {
+            this.explorerNodeMap.set(problemWithResolvedState.id, new LeetCodeNode(problemWithResolvedState));
+            for (const company of problemWithResolvedState.companies) {
                 this.companySet.add(company);
             }
-            for (const tag of problem.tags) {
+            for (const tag of problemWithResolvedState.tags) {
                 this.tagSet.add(tag);
             }
         }

@@ -2,7 +2,7 @@
     "name": "vscode-leetcode",
     "displayName": "LeetCode",
     "description": "Solve LeetCode problems in VS Code",
-    "version": "0.18.4",
+    "version": "0.18.5",
     "author": "LeetCode",
     "publisher": "LeetCode",
     "license": "MIT",
@@ -141,6 +141,41 @@
                 "title": "Sort Problems",
                 "category": "LeetCode",
                 "icon": "$(sort-precedence)"
+            },
+            {
+                "command": "leetcode.createProgress",
+                "title": "Create Progress",
+                "category": "LeetCode"
+            },
+            {
+                "command": "leetcode.selectProgress",
+                "title": "Select Progress",
+                "category": "LeetCode"
+            },
+            {
+                "command": "leetcode.deleteProgress",
+                "title": "Delete Progress",
+                "category": "LeetCode"
+            },
+            {
+                "command": "leetcode.listProgresses",
+                "title": "List Progresses",
+                "category": "LeetCode"
+            },
+            {
+                "command": "leetcode.markComplete",
+                "title": "Mark as Completed",
+                "category": "LeetCode"
+            },
+            {
+                "command": "leetcode.markUncomplete",
+                "title": "Mark as Uncompleted",
+                "category": "LeetCode"
+            },
+            {
+                "command": "leetcode.viewStoredSolution",
+                "title": "View Stored Solution",
+                "category": "LeetCode"
             }
         ],
         "viewsContainers": {
@@ -223,6 +258,21 @@
                     "command": "leetcode.removeFavorite",
                     "when": "view == leetCodeExplorer && viewItem == problem-favorite",
                     "group": "inline"
+                },
+                {
+                    "command": "leetcode.markComplete",
+                    "when": "view == leetCodeExplorer && viewItem =~ /problem*/",
+                    "group": "leetcode@4"
+                },
+                {
+                    "command": "leetcode.markUncomplete",
+                    "when": "view == leetCodeExplorer && viewItem =~ /problem*/",
+                    "group": "leetcode@5"
+                },
+                {
+                    "command": "leetcode.viewStoredSolution",
+                    "when": "view == leetCodeExplorer && viewItem =~ /problem*/",
+                    "group": "leetcode@6"
                 }
             ],
             "commandPalette": [
@@ -244,6 +294,18 @@
                 },
                 {
                     "command": "leetcode.removeFavorite",
+                    "when": "never"
+                },
+                {
+                    "command": "leetcode.markComplete",
+                    "when": "never"
+                },
+                {
+                    "command": "leetcode.markUncomplete",
+                    "when": "never"
+                },
+                {
+                    "command": "leetcode.viewStoredSolution",
                     "when": "never"
                 }
             ],

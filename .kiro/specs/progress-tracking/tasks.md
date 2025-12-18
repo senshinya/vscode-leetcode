@@ -1,0 +1,160 @@
+# Implementation Plan
+
+- [x] 1. Set up project structure and core interfaces
+  - [x] 1.1 Create progress data interfaces and types
+    - Create `src/progress/types.ts` with IProgress, ISolution, IProgressFile interfaces
+    - Define ProblemState enum usage for progress tracking
+    - _Requirements: 1.2, 1.4_
+  - [ ]* 1.2 Write property test for progress file round-trip
+    - **Property 1: Progress file round-trip**
+    - **Validates: Requirements 1.4**
+  - [x] 1.3 Implement progress file serialization utilities
+    - Create `src/progress/progressFile.ts` with serialize/deserialize functions
+    - Implement JSON parsing with validation
+    - Handle Map to/from JSON object conversion
+    - _Requirements: 1.4_
+
+- [x] 2. Implement ProgressManager core functionality
+  - [x] 2.1 Create ProgressManager class skeleton
+    - Create `src/progress/progressManager.ts`
+    - Implement singleton pattern matching existing codebase style
+    - Add Disposable interface implementation
+    - _Requirements: 1.1, 2.1_
+  - [x] 2.2 Implement progress creation logic
+    - Implement `createProgress(name: string)` method
+    - Create progress directory if not exists
+    - Initialize empty progress file
+    - Validate progress name (no duplicates, valid characters)
+    - _Requirements: 1.1, 1.2, 1.3_
+  - [ ]* 2.3 Write property test for progress creation
+    - **Property 2: Progress creation initializes empty state**
+    - **Validates: Requirements 1.2**
+  - [ ]* 2.4 Write property test for duplicate name rejection
+    - **Property 3: Duplicate progress name rejection**
+    - **Validates: Requirements 1.3**
+  - [x] 2.5 Implement progress listing
+    - Implement `listProgresses()` method
+    - Read progress directory and return available progress names
+    - _Requirements: 8.1_
+  - [x] 2.6 Implement progress deletion
+    - Implement `deleteProgress(name: string)` method
+    - Remove progress file from filesystem
+    - Clear active progress if deleted progress was active
+    - _Requirements: 7.2, 7.3_
+  - [ ]* 2.7 Write property test for progress deletion
+    - **Property 9: Progress deletion removes file**
+    - **Validates: Requirements 7.2**
+  - [ ]* 2.8 Write property test for active progress cleanup on deletion
+    - **Property 10: Active progress cleanup on deletion**
+    - **Validates: Requirements 7.3**
+
+- [x] 3. Implement progress selection and state management
+  - [x] 3.1 Implement progress selection
+    - Implement `selectProgress(name: string | undefined)` method
+    - Load progress file when selecting
+    - Store active progress name in globalState
+    - _Requirements: 2.2, 2.3, 2.4_
+  - [ ]* 3.2 Write property test for selection persistence
+    - **Property 4: Progress selection persistence**
+    - **Validates: Requirements 2.2, 2.3, 2.4**
+  - [x] 3.3 Implement problem state resolution
+    - Implement `resolveProblemState(problemId, remoteState)` method
+    - Return local state if active progress has it, otherwise remote state
+    - Implement `shouldUseLocalState()` helper
+    - _Requirements: 3.1, 3.2_
+  - [ ]* 3.4 Write property test for state resolution
+    - **Property 5: State resolution logic**
+    - **Validates: Requirements 3.1, 3.2**
+  - [x] 3.5 Implement problem state update
+    - Implement `setProblemState(problemId, state)` method
+    - Persist changes to progress file immediately
+    - _Requirements: 4.2, 4.3, 4.4_
+  - [ ]* 3.6 Write property test for state update persistence
+    - **Property 6: Problem state update persistence**
+    - **Validates: Requirements 4.2, 4.3, 4.4**
+
+- [ ] 4. Checkpoint - Ensure all tests pass
+  - Ensure all tests pass, ask the user if questions arise.
+
+- [x] 5. Implement solution storage
+  - [x] 5.1 Implement solution storage methods
+    - Implement `storeSolution(problemId, language, code)` method
+    - Implement `getSolution(problemId)` method
+    - Handle solution overwrite for existing problems
+    - _Requirements: 5.1, 5.2, 5.3, 5.4_
+  - [ ]* 5.2 Write property test for solution round-trip
+    - **Property 7: Solution storage round-trip**
+    - **Validates: Requirements 5.1, 5.2, 5.3, 5.4**
+  - [x] 5.3 Implement solution display decision logic
+    - Create helper function to determine if web solutions should be shown
+    - Return false for uncompleted problems with active progress
+    - _Requirements: 6.1, 6.2, 6.3_
+  - [ ]* 5.4 Write property test for solution display decision
+    - **Property 8: Solution display decision**
+    - **Validates: Requirements 6.1, 6.2, 6.3**
+
+- [x] 6. Implement progress listing with active indicator
+  - [x] 6.1 Enhance listing to show active progress
+    - Modify listing to indicate which progress is active
+    - Handle empty progress list case
+    - _Requirements: 8.1, 8.2, 8.3_
+  - [ ]* 6.2 Write property test for listing completeness
+    - **Property 11: Progress listing completeness**
+    - **Validates: Requirements 8.1, 8.2**
+
+- [x] 7. Integrate with existing codebase
+  - [x] 7.1 Modify explorerNodeManager to use progress state
+    - Update `refreshCache()` to use `progressManager.resolveProblemState()`
+    - Inject progress state into LeetCodeNode creation
+    - _Requirements: 3.1, 3.2, 3.3_
+  - [x] 7.2 Modify submit.ts to store solutions on success
+    - After successful submission, call `progressManager.storeSolution()`
+    - Mark problem as completed in active progress
+    - _Requirements: 4.1, 5.1_
+  - [x] 7.3 Modify show.ts to respect progress state
+    - Check progress state before showing web solutions
+    - Use `shouldShowWebSolution()` helper
+    - _Requirements: 6.1, 6.2, 6.3_
+
+- [x] 8. Register commands and UI
+  - [x] 8.1 Register progress commands in extension.ts
+    - Register `leetcode.createProgress` command
+    - Register `leetcode.selectProgress` command
+    - Register `leetcode.deleteProgress` command
+    - Register `leetcode.listProgresses` command
+    - _Requirements: 1.1, 2.1, 7.1, 8.1_
+  - [x] 8.2 Create progress command handlers
+    - Create `src/commands/progress.ts` with command implementations
+    - Implement UI prompts for progress name input
+    - Implement quick pick for progress selection
+    - Implement confirmation dialog for deletion
+    - _Requirements: 1.1, 2.1, 7.1, 7.4_
+  - [x] 8.3 Register mark complete/uncomplete commands
+    - Register `leetcode.markComplete` command
+    - Register `leetcode.markUncomplete` command
+    - Add context menu items for problems
+    - _Requirements: 4.2, 4.3_
+  - [x] 8.4 Register view stored solution command
+    - Register `leetcode.viewStoredSolution` command
+    - Show solution in webview or editor
+    - _Requirements: 5.4_
+
+- [x] 9. Update package.json configuration
+  - [x] 9.1 Add command definitions
+    - Add all new commands to contributes.commands
+    - Add appropriate titles and categories
+    - _Requirements: 1.1, 2.1, 4.2, 4.3, 7.1, 8.1_
+  - [x] 9.2 Add menu contributions
+    - Add progress commands to command palette
+    - Add mark complete/uncomplete to problem context menu
+    - Add view stored solution to problem context menu
+    - _Requirements: 4.2, 4.3, 5.4_
+
+- [x] 10. Add status bar indicator
+  - [x] 10.1 Show active progress in status bar
+    - Modify LeetCodeStatusBarItem to show active progress name
+    - Update on progress selection change
+    - _Requirements: 2.2, 8.2_
+
+- [ ] 11. Final Checkpoint - Ensure all tests pass
+  - Ensure all tests pass, ask the user if questions arise.

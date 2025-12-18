@@ -30,6 +30,7 @@ import { leetCodeSolutionProvider } from "../webview/leetCodeSolutionProvider";
 import * as list from "./list";
 import { getLeetCodeEndpoint } from "./plugin";
 import { globalState } from "../globalState";
+import { progressManager } from "../progress/progressManager";
 
 export async function previewProblem(input: IProblem | vscode.Uri, isSideMode: boolean = false): Promise<void> {
     let node: IProblem;
@@ -66,7 +67,12 @@ export async function previewProblem(input: IProblem | vscode.Uri, isSideMode: b
 
 export async function pickOne(): Promise<void> {
     const problems: IProblem[] = await list.listProblems();
-    const randomProblem: IProblem = problems[Math.floor(Math.random() * problems.length)];
+    // Resolve problem states using progress manager
+    const problemsWithResolvedState = problems.map((problem) => ({
+        ...problem,
+        state: progressManager.resolveProblemState(problem.id, problem.state),
+    }));
+    const randomProblem: IProblem = problemsWithResolvedState[Math.floor(Math.random() * problemsWithResolvedState.length)];
     await showProblemInternal(randomProblem);
 }
 
@@ -94,19 +100,43 @@ export async function searchProblem(): Promise<void> {
 
 export async function showSolution(input: LeetCodeNode | vscode.Uri): Promise<void> {
     let problemInput: string | undefined;
+    let problemId: string | undefined;
+
     if (input instanceof LeetCodeNode) {
         // Triggerred from explorer
         problemInput = input.id;
+        problemId = input.id;
     } else if (input instanceof vscode.Uri) {
         // Triggerred from Code Lens/context menu
         problemInput = `"${input.fsPath}"`;
+        problemId = await getNodeIdFromFile(input.fsPath);
     } else if (!input) {
         // Triggerred from command
-        problemInput = await getActiveFilePath();
+        const filePath = await getActiveFilePath();
+        if (filePath) {
+            problemInput = filePath;
+            problemId = await getNodeIdFromFile(filePath);
+        }
     }
 
     if (!problemInput) {
         vscode.window.showErrorMessage("Invalid input to fetch the solution data.");
+        return;
+    }
+
+    // Check if web solutions should be shown based on progress state
+    // Requirements: 6.1, 6.2, 6.3
+    if (problemId && !progressManager.shouldShowWebSolution(problemId)) {
+        // Problem is uncompleted in active progress - don't show web solutions
+        const storedSolution = progressManager.getSolution(problemId);
+        if (storedSolution) {
+            // Show stored solution instead
+            leetCodeSolutionProvider.show(formatStoredSolution(storedSolution));
+        } else {
+            vscode.window.showInformationMessage(
+                "This problem is not yet completed in your active progress. Complete it first to view solutions."
+            );
+        }
         return;
     }
 
@@ -122,6 +152,22 @@ export async function showSolution(input: LeetCodeNode | vscode.Uri): Promise<vo
         leetCodeChannel.appendLine(error.toString());
         await promptForOpenOutputChannel("Failed to fetch the top voted solution. Please open the output channel for details.", DialogType.error);
     }
+}
+
+/**
+ * Formats a stored solution for display
+ * @param solution The stored solution from progress
+ * @returns Formatted solution string
+ */
+function formatStoredSolution(solution: { problemId: string; language: string; code: string; submittedAt: string }): string {
+    return `## Your Stored Solution (${solution.language})
+
+Submitted: ${new Date(solution.submittedAt).toLocaleString()}
+
+\`\`\`${solution.language}
+${solution.code}
+\`\`\`
+`;
 }
 
 async function fetchProblemLanguage(): Promise<string | undefined> {
@@ -218,17 +264,19 @@ async function showDescriptionView(node: IProblem): Promise<void> {
 }
 async function parseProblemsToPicks(p: Promise<IProblem[]>): Promise<Array<IQuickItemEx<IProblem>>> {
     return new Promise(async (resolve: (res: Array<IQuickItemEx<IProblem>>) => void): Promise<void> => {
-        const picks: Array<IQuickItemEx<IProblem>> = (await p).map((problem: IProblem) =>
-            Object.assign(
+        const picks: Array<IQuickItemEx<IProblem>> = (await p).map((problem: IProblem) => {
+            // Resolve problem state using progress manager
+            const resolvedState = progressManager.resolveProblemState(problem.id, problem.state);
+            return Object.assign(
                 {},
                 {
-                    label: `${parseProblemDecorator(problem.state, problem.locked)}${problem.id}.${problem.name}`,
+                    label: `${parseProblemDecorator(resolvedState, problem.locked)}${problem.id}.${problem.name}`,
                     description: "",
                     detail: `AC rate: ${problem.passRate}, Difficulty: ${problem.difficulty}`,
-                    value: problem,
+                    value: { ...problem, state: resolvedState },
                 }
-            )
-        );
+            );
+        });
         resolve(picks);
     });
 }
