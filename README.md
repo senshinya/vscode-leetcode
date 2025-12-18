@@ -1,185 +1,180 @@
 # LeetCode
 
-> Solve LeetCode problems in VS Code
+> 在 VS Code 中练习 LeetCode
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/LeetCode-OpenSource/vscode-leetcode/master/resources/LeetCode.png" alt="">
+  <img src="https://raw.githubusercontent.com/senshinya/vscode-leetcode/master/resources/LeetCode.png" alt="">
 </p>
 <p align="center">
-  <a href="https://github.com/LeetCode-OpenSource/vscode-leetcode/actions?query=workflow%3ACI+branch%3Amaster">
-    <img src="https://img.shields.io/github/workflow/status/LeetCode-OpenSource/vscode-leetcode/CI/master?style=flat-square" alt="">
-  </a>
-  <a href="https://gitter.im/vscode-leetcode/Lobby">
-    <img src="https://img.shields.io/gitter/room/LeetCode-OpenSource/vscode-leetcode.svg?style=flat-square" alt="">
+  <a href="https://github.com/senshinya/vscode-leetcode/actions?query=workflow%3ACI+branch%3Amaster">
+    <img src="https://img.shields.io/github/workflow/status/senshinya/vscode-leetcode/CI/master?style=flat-square" alt="">
   </a>
   <a href="https://marketplace.visualstudio.com/items?itemName=LeetCode.vscode-leetcode">
     <img src="https://img.shields.io/visual-studio-marketplace/d/LeetCode.vscode-leetcode.svg?style=flat-square" alt="">
   </a>
-  <a href="https://github.com/LeetCode-OpenSource/vscode-leetcode/blob/master/LICENSE">
-    <img src="https://img.shields.io/github/license/LeetCode-OpenSource/vscode-leetcode.svg?style=flat-square" alt="">
+  <a href="https://github.com/senshinya/vscode-leetcode/blob/master/LICENSE">
+    <img src="https://img.shields.io/github/license/senshinya/vscode-leetcode.svg?style=flat-square" alt="">
   </a>
 </p>
 
-- English Document | [中文文档](https://github.com/LeetCode-OpenSource/vscode-leetcode/blob/master/docs/README_zh-CN.md)
+- [English Document](shttps://github.com/senshinya/vscode-leetcode/blob/master/docs/README_en-US.md) | 中文文档
 
-## ❗️ Attention ❗️- Workaround to login to LeetCode endpoint
+## ❗️ 注意 ❗️- 无法登录 LeetCode 节点的临时解决办法
 
-> Note: If you are using `leetcode.cn`, you can just ignore this section.
+> 注意：如果使用的是 `leetcode.cn` 账户，可以跳过此段落。
 
-Recently we observed that [the extension cannot login to leetcode.com endpoint anymore](https://github.com/LeetCode-OpenSource/vscode-leetcode/issues/478). The root cause of this issue is that leetcode.com changed its login mechanism and so far there is no ideal way to fix that issue.
+近期我们发现插件出现了[无法登录 leetcode.com 节点的问题](https://github.com/LeetCode-OpenSource/vscode-leetcode/issues/478)。原因是因为近期 leetcode.com 改变了登录机制，目前我们暂时没有找到解决该问题的完美解决方案。
 
-Thanks for [@yihong0618](https://github.com/yihong0618) provided a workaround which can somehow mitigate this. Now you can simply click the `Sign In` button and then select `Third Party` login or `Cookie` login.
+感谢 [@yihong0618](https://github.com/yihong0618) 提供了一个临时解决办法。现在你可以直接点击登录按钮并选择第三方登录或者 `Cookie` 登录。
 
-> Note: If you want to use third-party login(**Recommended**), please make sure your account has been connected to the third-party. If you want to use `Cookie` login, click [here](https://github.com/LeetCode-OpenSource/vscode-leetcode/issues/478#issuecomment-564757098) to see the steps.
+> 注意：如果你希望使用第三方登录（**推荐**），请确保你的账户已经与第三方账户连接。如果你希望通过 `Cookie` 登录，请点击[该连接](https://github.com/LeetCode-OpenSource/vscode-leetcode/issues/478#issuecomment-564757098)查看登录步骤。
 
-## Requirements
+## 运行条件
 
-- [VS Code 1.30.1+](https://code.visualstudio.com/)
+- [VS Code 1.23.0+](https://code.visualstudio.com/)
 - [Node.js 10+](https://nodejs.org)
-  > NOTE: Please make sure that `Node` is in your `PATH` environment variable. You can also use the setting `leetcode.nodePath` to specify the location of your `Node.js` executable.
+  > 注意：请确保`Node`在`PATH`环境变量中。您也可以通过设定 `leetcode.nodePath` 选项来指定 `Node.js` 可执行文件的路径。
 
-## Quick Start
+## 快速开始
 
-![demo](https://raw.githubusercontent.com/LeetCode-OpenSource/vscode-leetcode/master/docs/gifs/demo.gif)
+![demo](https://raw.githubusercontent.com/senshinya/vscode-leetcode/master/docs/gifs/demo.gif)
 
-## Features
+## 功能
 
-### Sign In/Out
+### 登入登出
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/LeetCode-OpenSource/vscode-leetcode/master/docs/imgs/sign_in.png" alt="Sign in" />
+  <img src="https://raw.githubusercontent.com/senshinya/vscode-leetcode/master/docs/imgs/sign_in.png" alt="登入登出" />
 </p>
 
-- Simply click `Sign in to LeetCode` in the `LeetCode Explorer` will let you **sign in** with your LeetCode account.
+- 点击 `LeetCode Explorer` 中的 `Sign in to LeetCode` 即可登入。
 
-- You can also use the following command to sign in/out:
+- 你也可以使用下来命令登入或利用 cookie 登入或登出:
   - **LeetCode: Sign in**
   - **LeetCode: Sign out**
 
 ---
 
-### Switch Endpoint
+### 切换 LeetCode 版本
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/LeetCode-OpenSource/vscode-leetcode/master/docs/imgs/endpoint.png" alt="Switch Endpoint" />
+  <img src="https://raw.githubusercontent.com/senshinya/vscode-leetcode/master/docs/imgs/endpoint.png" alt="切换 LeetCode 版本" />
 </p>
 
-- By clicking the button ![btn_endpoint](https://raw.githubusercontent.com/LeetCode-OpenSource/vscode-leetcode/master/docs/imgs/btn_endpoint.png) at the **explorer's navigation bar**, you can switch between different endpoints.
+- LeetCode 目前有**英文版**和**中文版**两种版本。点击 `LeetCode Explorer` 导航栏中的 ![btn_endpoint](https://raw.githubusercontent.com/senshinya/vscode-leetcode/master/docs/imgs/btn_endpoint.png) 按钮可切换版本。
 
-- The supported endpoints are:
+- 目前可切换的版本有:
 
   - **leetcode.com**
   - **leetcode.cn**
 
-  > Note: The accounts of different endpoints are **not** shared. Please make sure you are using the right endpoint. The extension will use `leetcode.com` by default.
+  > 注意：两种版本的 LeetCode 账户并**不通用**，请确保当前激活的版本是正确的。插件默认激活的是**英文版**。
 
 ---
 
-### Pick a Problem
+### 选择题目
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/LeetCode-OpenSource/vscode-leetcode/master/docs/imgs/pick_problem.png" alt="Pick a Problem" />
+  <img src="https://raw.githubusercontent.com/senshinya/vscode-leetcode/master/docs/imgs/pick_problem.png" alt="选择题目" />
 </p>
 
-- Directly click on the problem or right click the problem in the `LeetCode Explorer` and select `Preview Problem` to see the problem description.
-- Select `Show Problem` to directly open the file with the problem description.
+- 直接点击题目或者在 `LeetCode Explorer` 中**右键**题目并选择 `Preview Problem` 可查看题目描述
+- 选择 `Show Problem` 可直接进行答题。
 
-  > Note：You can specify the path of the workspace folder to store the problem files by updating the setting `leetcode.workspaceFolder`. The default value is：**$HOME/.leetcode/**.
+  > 注意：你可以通过更新配置项 `leetcode.workspaceFolder` 来指定保存题目文件所用的工作区路径。默认工作区路径为：**$HOME/.leetcode/**。
 
-  > You can specify whether including the problem description in comments or not by updating the setting `leetcode.showCommentDescription`.
+  > 注意：你可以通过更新配置项 `leetcode.showCommentDescription` 来指定是否要在注释中包含题目描述。
 
-  > You can switch the default language by triggering the command: `LeetCode: Switch Default Language`.
+  > 注意：你可以通过 `LeetCode: Switch Default Language` 命令变更答题时默认使用编程语言。
 
 ---
 
-### Editor Shortcuts
+### 编辑器快捷方式
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/LeetCode-OpenSource/vscode-leetcode/master/docs/imgs/shortcuts.png" alt="Editor Shortcuts" />
+  <img src="https://raw.githubusercontent.com/senshinya/vscode-leetcode/master/docs/imgs/shortcuts.png" alt="Editor Shortcuts" />
 </p>
 
-- The extension supports 5 editor shortcuts (aka Code Lens):
+- 插件会在编辑区域内支持五种不同的快捷方式（Code Lens）:
 
-  - `Submit`: Submit your answer to LeetCode.
-  - `Test`: Test your answer with customized test cases.
-  - `Star/Unstar`: Star or unstar the current problem.
-  - `Solution`: Show the top voted solution for the current problem.
-  - `Description`: Show the problem description page.
+  - `Submit`: 提交你的答案至 LeetCode；
+  - `Test`: 用给定的测试用例测试你的答案；
+  - `Star`: 收藏或取消收藏该问题；
+  - `Solution`: 显示该问题的高票解答；
+  - `Description`: 显示该问题的题目描述。
 
-  > Note: You can customize the shortcuts using the setting: `leetcode.editor.shortcuts`. By default, only `Submit` and `Test` shortcuts are enabled.
+  > 注意：你可以通过 `leetcode.editor.shortcuts` 配置项来定制需要激活的快捷方式。默认情况下只有 `Submit` 和 `Test` 会被激活。
 
 ---
 
-### Search problems by Keywords
+### 通过关键字搜索题目
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/LeetCode-OpenSource/vscode-leetcode/master/docs/imgs/search.png" alt="Search problems by Keywords" />
+  <img src="https://raw.githubusercontent.com/senshinya/vscode-leetcode/master/docs/imgs/search.png" alt="通过关键字搜索题目" />
 </p>
 
-- By clicking the button ![btn_search](https://raw.githubusercontent.com/LeetCode-OpenSource/vscode-leetcode/master/docs/imgs/btn_search.png) at the **explorer's navigation bar**, you can search the problems by keywords.
+- 点击 `LeetCode Explorer` 导航栏中的 ![btn_search](https://raw.githubusercontent.com/senshinya/vscode-leetcode/master/docs/imgs/btn_search.png) 按钮可按照关键字搜索题目。
 
 ---
 
-### Manage Session
+### 管理存档
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/LeetCode-OpenSource/vscode-leetcode/master/docs/imgs/session.png" alt="Manage Session" />
+  <img src="https://raw.githubusercontent.com/senshinya/vscode-leetcode/master/docs/imgs/session.png" alt="管理存档" />
 </p>
 
-- To manage your LeetCode sessions, just clicking the `LeetCode: ***` at the bottom of the status bar. You can **switch** between sessions or **create**, **delete** a session.
+- 点击位于 VS Code 底部状态栏的 `LeetCode: ***` 管理 `LeetCode 存档`。你可以**切换**存档或者**创建**，**删除**存档。
 
 ---
 
-### Local Progress Tracking
+### 本地进度追踪
 
-The extension supports local progress tracking, allowing you to track your learning progress independently from LeetCode's remote state.
+插件支持本地进度追踪功能，允许你独立于 LeetCode 远程状态来追踪学习进度。
 
-- **Create Progress**: Use the command `LeetCode: Create Progress` to create a new local progress. Progress files are stored in `.leetcode/progress/` under your workspace.
+- **创建进度**：使用命令 `LeetCode: Create Progress` 创建新的本地进度。进度文件存储在工作区的 `.leetcode/progress/` 目录下。
 
-- **Select Progress**: Use `LeetCode: Select Progress` to switch between different progresses or deselect to use remote state.
+- **选择进度**：使用 `LeetCode: Select Progress` 在不同进度之间切换，或取消选择以使用远程状态。
 
-- **Track Completion**: When a progress is active:
-  - Problem completion status is read from your local progress file
-  - Successfully submitted solutions are automatically saved to the progress
-  - Use `LeetCode: Mark as Completed` or `LeetCode: Mark as Uncompleted` to manually update problem status
+- **追踪完成状态**：当进度处于激活状态时：
+  - 题目完成状态从本地进度文件读取
+  - 成功提交的题解会自动保存到进度中
+  - 使用 `LeetCode: Mark as Completed` 或 `LeetCode: Mark as Uncompleted` 手动更新题目状态
 
-- **Spoiler-Free Mode**: When viewing uncompleted problems with an active progress, web solutions are hidden to avoid spoilers.
+- **防剧透模式**：当进度激活且查看未完成的题目时，网页题解会被隐藏以避免剧透。
 
-- **Manage Progresses**: Use `LeetCode: List Progresses` to view all progresses, or `LeetCode: Delete Progress` to remove one.
+- **管理进度**：使用 `LeetCode: List Progresses` 查看所有进度，或使用 `LeetCode: Delete Progress` 删除进度。
 
-> Note: Progress data is stored locally in JSON format and is independent of your LeetCode account.
+> 注意：进度数据以 JSON 格式存储在本地，与你的 LeetCode 账户无关。
 
-## Settings
+## 插件配置项
 
-| Setting Name                      | Description                                                                                                                                                                                                                                                   | Default Value      |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
-| `leetcode.hideSolved`             | Specify to hide the solved problems or not                                                                                                                                                                                                                    | `false`            |
-| `leetcode.defaultLanguage`        | Specify the default language used to solve the problem. Supported languages are: `bash`, `c`, `cpp`, `csharp`, `golang`, `java`, `javascript`, `kotlin`, `mysql`, `php`, `python`,`python3`,`ruby`,`rust`, `scala`, `swift`, `typescript`                     | `N/A`              |
-| `leetcode.useWsl`                 | Specify whether to use WSL or not                                                                                                                                                                                                                             | `false`            |
-| `leetcode.endpoint`               | Specify the active endpoint. Supported endpoints are: `leetcode`, `leetcode-cn`                                                                                                                                                                               | `leetcode`         |
-| `leetcode.workspaceFolder`        | Specify the path of the workspace folder to store the problem files.                                                                                                                                                                                          | `""`               |
-| `leetcode.filePath`               | Specify the relative path under the workspace and the file name to save the problem files. More details can be found [here](https://github.com/LeetCode-OpenSource/vscode-leetcode/wiki/Customize-the-Relative-Folder-and-the-File-Name-of-the-Problem-File). |                    |
-| `leetcode.enableStatusBar`        | Specify whether the LeetCode status bar will be shown or not.                                                                                                                                                                                                 | `true`             |
-| `leetcode.editor.shortcuts`       | Specify the customized shortcuts in editors. Supported values are: `submit`, `test`, `star`, `solution` and `description`.                                                                                                                                    | `["submit, test"]` |
-| `leetcode.enableSideMode`         | Specify whether `preview`, `solution` and `submission` tab should be grouped into the second editor column when solving a problem.                                                                                                                            | `true`             |
-| `leetcode.nodePath`               | Specify the `Node.js` executable path. for example, C:\Program Files\nodejs\node.exe                                                                                                                                                                          | `node`             |
-| `leetcode.showCommentDescription` | Specify whether to include the problem description in the comments                                                                                                                                                                                            | `false`            |
-| `leetcode.useEndpointTranslation` | Use endpoint's translation (if available)                                                                                                                                                                                                                     | `true`             |
-| `leetcode.colorizeProblems`       | Add difficulty badge and colorize problems files in explorer tree                                                                                                                                                                                             | `true`             |
-| `leetcode.problems.sortStrategy`  | Specify sorting strategy for problems list                                                                                                                                                                                                                    | `None`             |
-| `leetcode.allowReportData`        | Allow LeetCode to report anonymous usage data to improve the product. list                                                                                                                                                                                    | `true`             |
+| 配置项名称                        | 描述                                                                                                                                                                                                                                                                                                          | 默认值             |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| `leetcode.hideSolved`             | 指定是否要隐藏已解决的问题                                                                                                                                                                                                                                                                                    | `false`            |
+| `leetcode.defaultLanguage`        | 指定答题时使用的默认语言，可选语言有：`bash`, `c`, `cpp`, `csharp`, `golang`, `java`, `javascript`, `kotlin`, `mysql`, `php`, `python`,`python3`,`ruby`, `rust`, `scala`, `swift`, `typescript`                                                                                                               | `N/A`              |
+| `leetcode.useWsl`                 | 指定是否启用 WSL                                                                                                                                                                                                                                                                                              | `false`            |
+| `leetcode.endpoint`               | 指定使用的终端，可用终端有：`leetcode`, `leetcode-cn`                                                                                                                                                                                                                                                         | `leetcode`         |
+| `leetcode.workspaceFolder`        | 指定保存文件的工作区目录                                                                                                                                                                                                                                                                                      | `""`               |
+| `leetcode.filePath`               | 指定生成题目文件的相对文件夹路径名和文件名。点击查看[更多详细用法](https://github.com/LeetCode-OpenSource/vscode-leetcode/wiki/%E8%87%AA%E5%AE%9A%E4%B9%89%E9%A2%98%E7%9B%AE%E6%96%87%E4%BB%B6%E7%9A%84%E7%9B%B8%E5%AF%B9%E6%96%87%E4%BB%B6%E5%A4%B9%E8%B7%AF%E5%BE%84%E5%92%8C%E6%96%87%E4%BB%B6%E5%90%8D)。 |                    |
+| `leetcode.enableStatusBar`        | 指定是否在 VS Code 下方显示插件状态栏。                                                                                                                                                                                                                                                                       | `true`             |
+| `leetcode.editor.shortcuts`       | 指定在编辑器内所自定义的快捷方式。可用的快捷方式有: `submit`, `test`, `star`, `solution`, `description`。                                                                                                                                                                                                     | `["submit, test"]` |
+| `leetcode.enableSideMode`         | 指定在解决一道题时，是否将`问题预览`、`高票答案`与`提交结果`窗口集中在编辑器的第二栏。                                                                                                                                                                                                                        | `true`             |
+| `leetcode.nodePath`               | 指定 `Node.js` 可执行文件的路径。如：C:\Program Files\nodejs\node.exe                                                                                                                                                                                                                                         | `node`             |
+| `leetcode.showCommentDescription` | 指定是否要在注释中显示题干。                                                                                                                                                                                                                                                                                  | `false`            |
+| `leetcode.useEndpointTranslation` | 是否显示翻译版本内容。                                                                                                                                                                                                                                                                                        | `true`             |
+| `leetcode.allowReportData`        | 为了更好的产品体验允许上报用户埋数据                                                                                                                                                                                                                                                                          | `true`             |
 
-## Want Help?
+## 需要帮助？
 
-When you meet any problem, you can check out the [Troubleshooting](https://github.com/LeetCode-OpenSource/vscode-leetcode/wiki/Troubleshooting) and [FAQ](https://github.com/LeetCode-OpenSource/vscode-leetcode/wiki/FAQ) first.
+在遇到任何问题时，可以先查看一下[疑难解答](https://github.com/LeetCode-OpenSource/vscode-leetcode/wiki/%E7%96%91%E9%9A%BE%E8%A7%A3%E7%AD%94)以及[常见问题](https://github.com/LeetCode-OpenSource/vscode-leetcode/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)寻求帮助。
 
-If your problem still cannot be addressed, feel free to reach us in the [Gitter Channel](https://gitter.im/vscode-leetcode/Lobby) or [file an issue](https://github.com/LeetCode-OpenSource/vscode-leetcode/issues/new/choose).
+如果您的问题依然没有解决，可以在 [Gitter Channel](https://gitter.im/vscode-leetcode/Lobby) 联系我们，或者您也可以[记录一个新的 issue](https://github.com/LeetCode-OpenSource/vscode-leetcode/issues/new/choose)。
 
-## Release Notes
+## 更新日志
 
-Refer to [CHANGELOG](https://github.com/LeetCode-OpenSource/vscode-leetcode/blob/master/CHANGELOG.md)
+请参考[更新日志](https://github.com/senshinya/vscode-leetcode/blob/master/CHANGELOG.md)
 
-## Acknowledgement
+## 鸣谢
 
-- This extension is based on [@skygragon](https://github.com/skygragon)'s [leetcode-cli](https://github.com/skygragon/leetcode-cli) open source project.
-- Special thanks to our [contributors](https://github.com/LeetCode-OpenSource/vscode-leetcode/blob/master/ACKNOWLEDGEMENTS.md).
+- 本插件基于[@skygragon](https://github.com/skygragon)的[leetcode-cli](https://github.com/skygragon/leetcode-cli)开源项目制作。
+- 特别鸣谢这些[贡献者们](https://github.com/senshinya/vscode-leetcode/blob/master/ACKNOWLEDGEMENTS.md)。
