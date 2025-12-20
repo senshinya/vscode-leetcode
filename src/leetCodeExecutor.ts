@@ -110,7 +110,8 @@ class LeetCodeExecutor implements Disposable {
 
         if (!await fse.pathExists(filePath)) {
             await fse.createFile(filePath);
-            const codeTemplate: string = await this.executeCommandWithProgressEx("Fetching problem data...", this.nodeExecutable, cmd);
+            let codeTemplate: string = await this.executeCommandWithProgressEx("Fetching problem data...", this.nodeExecutable, cmd);
+            codeTemplate = this.ensureGoPackage(codeTemplate, language);
             await fse.writeFile(filePath, codeTemplate);
         }
     }
@@ -196,6 +197,35 @@ class LeetCodeExecutor implements Disposable {
             commandParams.push("-d");
         }
         await this.executeCommandWithProgressEx("Updating the favorite list...", "node", commandParams);
+    }
+
+    /**
+     * Fetches the default code template for a problem.
+     * Requirements: 1.2
+     * @param problemId The problem ID
+     * @param language The programming language
+     * @param showDescriptionInComment Whether to include description in comments
+     * @returns The default code template string
+     */
+    public async getDefaultTemplate(problemId: string, language: string, showDescriptionInComment: boolean = false): Promise<string> {
+        const templateType: string = showDescriptionInComment ? "-cx" : "-c";
+        const cmd: string[] = [await this.getLeetCodeBinaryPath(), "show", problemId, templateType, "-l", language];
+        const template = await this.executeCommandWithProgressEx("Fetching default template...", this.nodeExecutable, cmd);
+        return this.ensureGoPackage(template, language);
+    }
+
+    /**
+     * Ensures Go templates have a package declaration.
+     * If the template is for Go and doesn't start with "package", prepends "package main\n".
+     */
+    private ensureGoPackage(template: string, language: string): string {
+        if (language.toLowerCase() === "golang" || language.toLowerCase() === "go") {
+            const trimmed = template.trimStart();
+            if (!trimmed.startsWith("package ")) {
+                return "package main\n\n" + template;
+            }
+        }
+        return template;
     }
 
     public async getCompaniesAndTags(): Promise<{ companies: { [key: string]: string[] }, tags: { [key: string]: string[] } }> {

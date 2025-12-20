@@ -7,6 +7,7 @@ import * as cache from "./commands/cache";
 import { switchDefaultLanguage } from "./commands/language";
 import * as plugin from "./commands/plugin";
 import * as progress from "./commands/progress";
+import * as reset from "./commands/reset";
 import * as session from "./commands/session";
 import * as show from "./commands/show";
 import * as star from "./commands/star";
@@ -100,6 +101,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
                 });
                 return submit.submitSolution(uri);
             }),
+            vscode.commands.registerCommand("leetcode.resetToTemplate", (uri?: vscode.Uri) => reset.resetToTemplate(uri)),
             vscode.commands.registerCommand("leetcode.switchDefaultLanguage", () => switchDefaultLanguage()),
             vscode.commands.registerCommand("leetcode.addFavorite", (node: LeetCodeNode) => star.addFavorite(node)),
             vscode.commands.registerCommand("leetcode.removeFavorite", (node: LeetCodeNode) => star.removeFavorite(node)),

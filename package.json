@@ -2,7 +2,7 @@
     "name": "vscode-leetcode",
     "displayName": "LeetCode",
     "description": "Solve LeetCode problems in VS Code",
-    "version": "0.18.6",
+    "version": "0.18.7",
     "author": "LeetCode",
     "publisher": "LeetCode",
     "license": "MIT",
@@ -111,6 +111,11 @@
             {
                 "command": "leetcode.submitSolution",
                 "title": "Submit to LeetCode",
+                "category": "LeetCode"
+            },
+            {
+                "command": "leetcode.resetToTemplate",
+                "title": "Reset to Template",
                 "category": "LeetCode"
             },
             {
@@ -711,7 +716,8 @@
                         "type": "array",
                         "default": [
                             "submit",
-                            "test"
+                            "test",
+                            "reset"
                         ],
                         "scope": "application",
                         "items": {
@@ -719,6 +725,7 @@
                             "enum": [
                                 "submit",
                                 "test",
+                                "reset",
                                 "star",
                                 "solution",
                                 "description"
@@ -726,6 +733,7 @@
                             "enumDescriptions": [
                                 "Submit your answer to LeetCode.",
                                 "Test your answer with customized test cases.",
+                                "Reset the current file to the default template.",
                                 "Star or unstar the current problem.",
                                 "Show the top voted solution for the current problem.",
                                 "Show the problem description page."
