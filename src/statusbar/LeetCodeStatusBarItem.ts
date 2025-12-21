@@ -29,11 +29,8 @@ export class LeetCodeStatusBarItem implements vscode.Disposable {
     private refreshDisplay(): void {
         switch (this.currentStatus) {
             case UserStatus.SignedIn:
-                if (this.activeProgressName) {
-                    this.statusBarItem.text = `LeetCode: ${this.currentUser} [${this.activeProgressName}]`;
-                } else {
-                    this.statusBarItem.text = `LeetCode: ${this.currentUser}`;
-                }
+                const progressDisplay = this.activeProgressName || "远程进度";
+                this.statusBarItem.text = `LeetCode: ${this.currentUser}\t当前进度: ${progressDisplay}`;
                 break;
             case UserStatus.SignedOut:
             default:

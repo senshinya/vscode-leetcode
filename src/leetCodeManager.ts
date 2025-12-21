@@ -13,6 +13,7 @@ import * as wsl from "./utils/wslUtils";
 import { getLeetCodeEndpoint } from "./commands/plugin";
 import { globalState } from "./globalState";
 import { queryUserData } from "./request/query-user-data";
+import { queryUserProfile } from "./request/query-user-profile";
 import { parseQuery } from "./utils/toolUtils";
 
 class LeetCodeManager extends EventEmitter {
@@ -31,7 +32,10 @@ class LeetCodeManager extends EventEmitter {
     public async getLoginStatus(): Promise<void> {
         try {
             const result: string = await leetCodeExecutor.getUserInfo();
-            this.currentUser = this.tryParseUserName(result);
+            const username = this.tryParseUserName(result);
+            // Try to get realName from stored user status, fallback to username
+            const userStatus = globalState.getUserStatus();
+            this.currentUser = userStatus?.realName || username;
             this.userStatus = UserStatus.SignedIn;
         } catch (error) {
             this.currentUser = undefined;
@@ -48,8 +52,12 @@ class LeetCodeManager extends EventEmitter {
         globalState.setUserStatus(data);
         await this.setCookieToCli(cookie, data.username);
         if (data.username) {
-            vscode.window.showInformationMessage(`Successfully ${data.username}.`);
-            this.currentUser = data.username;
+            // Fetch realName from user profile
+            const profile = await queryUserProfile(data.username);
+            const displayName = profile?.realName || data.username;
+            globalState.setUserStatus({ ...data, realName: displayName });
+            vscode.window.showInformationMessage(`Successfully logged in as ${displayName}.`);
+            this.currentUser = displayName;
             this.userStatus = UserStatus.SignedIn;
             this.emit("statusChanged");
         }

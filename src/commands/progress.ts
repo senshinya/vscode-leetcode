@@ -79,12 +79,24 @@ export async function selectProgress(): Promise<void> {
             value: undefined,
         });
 
+        // Add option to create new progress
+        picks.push({
+            label: "$(plus) Create New Progress",
+            description: "",
+            value: ":createProgress",
+        });
+
         const choice = await vscode.window.showQuickPick(picks, {
             placeHolder: "Select a progress to activate",
         });
 
         if (choice === undefined) {
             return; // User cancelled
+        }
+
+        if (choice.value === ":createProgress") {
+            await createProgress();
+            return;
         }
 
         await progressManager.selectProgress(choice.value);

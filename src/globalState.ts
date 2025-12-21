@@ -10,6 +10,7 @@ export type UserDataType = {
     isSignedIn: boolean;
     isPremium: boolean;
     username: string;
+    realName?: string;
     avatar: string;
     isVerified?: boolean;
 };
